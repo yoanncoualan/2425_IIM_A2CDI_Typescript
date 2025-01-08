@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "outDir": "js",
+    "target": "ES2021",
+    "noEmitOnError": false,
+    "strict": true,
+    "paths": {
+      "undici-types": [
+        "./node_modules/undici-types/index.d.ts"
+      ],
+    }
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}
