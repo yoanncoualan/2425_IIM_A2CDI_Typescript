@@ -1,6 +1,16 @@
-import { hash } from "bcrypt-ts";
+async function sha256(str) {
+    const msgUint8 = new TextEncoder().encode(str); // encode as (utf-8) Uint8Array
+    const hashBuffer = await window.crypto.subtle.digest("SHA-256", msgUint8); // hash the message
+    const hashArray = Array.from(new Uint8Array(hashBuffer)); // convert buffer to byte array
+    const hashHex = hashArray
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join(""); // convert bytes to hex string
+    return hashHex;
+}
 export async function hashPassword(plainPassword) {
-    return hash(plainPassword, 10).then((hashedPassword) => {
-        return hashedPassword;
-    });
+    return await sha256(plainPassword);
+}
+export async function verifyPassword(plainPassword, hashedPassword) {
+    const hashedInputPassword = await sha256(plainPassword);
+    return hashedInputPassword === hashedPassword;
 }
